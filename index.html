@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="description" content="Discord Unix Timestamp Converter: A sleek web tool that effortlessly converts chosen dates and times into Discord-compatible Unix timestamps, enhancing convenience for Discord users.">
+      <meta name="keywords" content="Discord Unix Timestamp Converter: A sleek web tool that effortlessly converts chosen dates and times into Discord-compatible Unix timestamps, enhancing convenience for Discord users.">
+      <meta name="author" content="Peace">
+
+      <meta property="og:title" content="Discord Unix Timestamp Converter:">
+    <meta property="og:description" content="Discord Unix Timestamp Converter: A sleek web tool that effortlessly converts chosen dates and times into Discord-compatible Unix timestamps, enhancing convenience for Discord users.">
+    <title>Discord Unix Timestamp Converter</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-align: center;
+      margin: 20px;
+      background-color: #36393f; /* Discord Grey Background */
+      color: #ffffff;
+    }
+
+    header {
+      background-color: #2f3136; /* Discord Darker Grey Background */
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #2f3136; /* Discord Darker Grey Background */
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #7289da; /* Discord Purple Text */
+    }
+
+    input, select {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #7289da; /* Discord Purple Text */
+      border-radius: 4px;
+      box-sizing: border-box;
+      color: #ffffff; /* White Text */
+      background-color: #23272a; /* Discord Dark Theme Background */
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 20px;
+      background-color: #7289da; /* Discord Purple Text */
+      color: #ffffff; /* White Text */
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(114, 137, 218, 0); /* Initial box shadow - fully transparent */
+    }
+
+    button:hover {
+      background-color: #454fbf; /* Discord Lighter Purple on Hover */
+      box-shadow: 0 0 10px rgba(114, 137, 218, 0.5); /* Add a subtle box shadow with transparency */
+      animation: glow 1s infinite alternate; /* Add pulsating glow animation */
+    }
+
+    @keyframes glow {
+      to {
+        box-shadow: 0 0 20px rgba(114, 137, 218, 0.8); /* Increase intensity of glow */
+      }
+    }
+
+    .result-container {
+      margin-top: 30px;
+    }
+
+    .result-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background-color: #2f3136; /* Discord Darker Grey Background */
+      border: 1px solid #7289da; /* Discord Purple Text */
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .result-item p {
+      margin: 0;
+      margin-bottom: 15px;
+      color: #7289da; /* Discord Purple Text */
+    }
+
+    .copyButton {
+      width: 80%;
+      padding: 12px;
+      background-color: #7289da; /* Discord Purple Text */
+      color: #ffffff; /* White Text */
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s, box-shadow 0.3s;
+      font-size: 14px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(114, 137, 218, 0); /* Initial box shadow - fully transparent */
+    }
+
+    .copyButton:hover {
+      background-color: #454fbf; /* Discord Lighter Purple on Hover */
+      box-shadow: 0 0 10px rgba(114, 137, 218, 0.5); /* Add a subtle box shadow with transparency */
+      animation: glowCopy 1s infinite alternate; /* Add pulsating glow animation */
+    }
+
+    @keyframes glowCopy {
+      to {
+        box-shadow: 0 0 20px rgba(114, 137, 218, 0.8); /* Increase intensity of glow */
+      }
+    }
+
+    footer {
+      margin-top: 30px;
+      color: #7289da; /* Discord Purple Text */
+    }
+
+    footer a {
+      color: #7289da; /* Discord Purple Text */
+      text-decoration: none;
+    }
+
+    @media only screen and (max-width: 600px) {
+      body {
+        margin: 10px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+
+      .copyButton {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Discord Unix Timestamp Converter</h1>
+</header>
+
+<div class="container">
+  <label for="datePicker">Choose Date:</label>
+  <input type="date" id="datePicker">
+
+  <label for="timeInput">Choose Time:</label>
+  <input type="time" id="timeInput">
+
+  <button onclick="convertTimestamp()">Convert</button>
+
+  <div class="result-container">
+    <div class="result-item">
+      <p><strong>Default:</strong> <span id="defaultTimestamp"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('defaultTimestamp')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Short Time:</strong> <span id="shortTime"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('shortTime')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Long Time:</strong> <span id="longTime"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('longTime')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Short Date:</strong> <span id="shortDate"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('shortDate')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Long Date:</strong> <span id="longDate"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('longDate')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Short Date/Time:</strong> <span id="shortDateTime"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('shortDateTime')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Long Date/Time:</strong> <span id="longDateTime"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('longDateTime')">Copy</button>
+    </div>
+
+    <div class="result-item">
+      <p><strong>Relative Time:</strong> <span id="relativeTime"></span></p>
+      <button class="copyButton" onclick="copyToClipboard('relativeTime')">Copy</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2024 Discord Unix Timestamp Converter | Made by <a href="https://discord.com/invite/YnrNJXQs" target="_blank">Peace </a></p>
+</footer>
+
+<script>
+  function convertTimestamp() {
+    const dateInput = document.getElementById('datePicker').value;
+    const timeInput = document.getElementById('timeInput').value;
+    
+    if (!dateInput || !timeInput) {
+      alert('Please select both date and time.');
+      return;
+    }
+
+    const selectedTimestamp = new Date(`${dateInput} ${timeInput}`).getTime() / 1000;
+
+    document.getElementById('defaultTimestamp').innerText = `<t:${selectedTimestamp}>`;
+    document.getElementById('shortTime').innerText = `<t:${selectedTimestamp}:t>`;
+    document.getElementById('longTime').innerText = `<t:${selectedTimestamp}:T>`;
+    document.getElementById('shortDate').innerText = `<t:${selectedTimestamp}:d>`;
+    document.getElementById('longDate').innerText = `<t:${selectedTimestamp}:D>`;
+    document.getElementById('shortDateTime').innerText = `<t:${selectedTimestamp}:f>`;
+    document.getElementById('longDateTime').innerText = `<t:${selectedTimestamp}:F>`;
+    document.getElementById('relativeTime').innerText = `<t:${selectedTimestamp}:R>`;
+  }
+
+  function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    const textToCopy = element.innerText;
+
+    const textarea = document.createElement('textarea');
+    textarea.value = textToCopy;
+    document.body.appendChild(textarea);
+
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    alert('Copied to clipboard!');
+  }
+</script>
+
+</body>
+</html>
